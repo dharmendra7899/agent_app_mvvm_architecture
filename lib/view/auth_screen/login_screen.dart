@@ -1,6 +1,7 @@
 import 'package:agent_app/res/widgets/app_button.dart' show AppButton;
 import 'package:agent_app/res/widgets/app_text_field.dart';
-import 'package:agent_app/res/widgets/round_button.dart' show RoundButton;
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart';
 import 'package:agent_app/utils/routes/routes_names.dart' show RouteNames;
 import 'package:agent_app/utils/utils.dart' show Utils;
 import 'package:agent_app/viewModel/auth_provider.dart' show AuthViewModel;
@@ -34,7 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Login"),
+          title: Text(
+            "Login",
+            style: context.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -117,6 +123,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     }),
                   ),
 
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Forgot Password",
+                        style: context.textTheme.bodyLarge?.copyWith(
+                          color: appColors.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+
                   SizedBox(height: height * 0.08),
 
                   AppButton(
@@ -126,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (formKey.currentState == null ||
                           formKey.currentState!.validate()) {
                         Map data = {
-                          "email": _emailController.text.toString(),
+                          "username": _emailController.text.toString(),
                           "password": _passwordController.text.toString(),
                         };
                         authViewmodel.apiLogin(data, context);
@@ -136,12 +155,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     isLoading: authViewmodel.loading,
                   ),
 
-                  SizedBox(height: height * 0.02),
-                  InkWell(
-                    onTap: () {
+                  SizedBox(height: height * 0.01),
+                  TextButton(
+                    onPressed: () {
                       Navigator.pushNamed(context, RouteNames.signupScreen);
                     },
-                    child: const Text("Don't have an account yet? Sign Up!"),
+                    child: Text(
+                      "Don't have an account yet? Sign Up!",
+                      style: context.textTheme.bodyMedium,
+                    ),
                   ),
                 ],
               ),

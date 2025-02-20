@@ -1,4 +1,5 @@
-import 'package:agent_app/res/widgets/colors.dart' show appColors;
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart' show appColors;
 import 'package:flutter/material.dart';
 
 class MultiSelectionDropdown extends StatefulWidget {
@@ -55,10 +56,10 @@ class _MultiSelectionDropdownState extends State<MultiSelectionDropdown> {
               children: [
                 Text(
                   widget.title!,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                  style: context.textTheme.bodyMedium,
                 ),
                 if (widget.mandatory ?? false)
-                  const Text(" *", style: TextStyle(color: Colors.red)),
+                   Text(" *", style: context.textTheme.bodyMedium?.copyWith(color: appColors.error)),
               ],
             ),
           ),
@@ -94,10 +95,7 @@ class _MultiSelectionDropdownState extends State<MultiSelectionDropdown> {
                               .join(', '),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Roboto',
+                          style: context.textTheme.bodyMedium?.copyWith(
                             color: _selectedItems.isEmpty
                                 ? Colors.grey
                                 :  appColors.appBlack,
@@ -135,11 +133,7 @@ class _MultiSelectionDropdownState extends State<MultiSelectionDropdown> {
                               children: [
                                 Text(
                                   item['name'],
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'Roboto',
-                                  ),
+                                  style: context.textTheme.bodyMedium
                                 ),
                                 Icon(
                                   isSelected

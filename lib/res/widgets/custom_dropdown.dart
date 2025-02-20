@@ -1,3 +1,5 @@
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class SingleSelectionDropdown extends StatefulWidget {
@@ -30,9 +32,10 @@ class _SingleSelectionDropdownState extends State<SingleSelectionDropdown> {
   @override
   void initState() {
     super.initState();
-    _selectedItem = widget.items.any((item) => item['id'] == widget.selectedId)
-        ? widget.selectedId
-        : null;
+    _selectedItem =
+        widget.items.any((item) => item['id'] == widget.selectedId)
+            ? widget.selectedId
+            : null;
   }
 
   void _selectItem(String itemId) {
@@ -53,13 +56,14 @@ class _SingleSelectionDropdownState extends State<SingleSelectionDropdown> {
             padding: const EdgeInsets.only(bottom: 6.0),
             child: Row(
               children: [
-                Text(
-                  widget.title!,
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w400),
-                ),
+                Text(widget.title!, style: context.textTheme.bodyMedium),
                 if (widget.mandatory)
-                  const Text(" *", style: TextStyle(color: Colors.red)),
+                  Text(
+                    " *",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: appColors.error,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -76,9 +80,7 @@ class _SingleSelectionDropdownState extends State<SingleSelectionDropdown> {
               border: Border.all(color: Colors.black),
               borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
             ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
                 Padding(
@@ -90,13 +92,13 @@ class _SingleSelectionDropdownState extends State<SingleSelectionDropdown> {
                         _selectedItem == null
                             ? "Select ${widget.title ?? ''}"
                             : widget.items.firstWhere(
-                                (item) => item['id'] == _selectedItem)['name'],
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: _selectedItem == null
-                              ? Colors.grey
-                              : Colors.black,
+                              (item) => item['id'] == _selectedItem,
+                            )['name'],
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color:
+                              _selectedItem == null
+                                  ? Colors.grey
+                                  : appColors.appBlack,
                         ),
                       ),
                       Icon(
@@ -112,25 +114,31 @@ class _SingleSelectionDropdownState extends State<SingleSelectionDropdown> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Column(
-                      children: widget.items.map((item) {
-                        final isSelected = item['id'] == _selectedItem;
-                        return GestureDetector(
-                          onTap: () => _selectItem(item['id']),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
-                            decoration: BoxDecoration(
-                              color: isSelected ? Colors.grey[200] : Colors.white,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              item['name'],
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                      children:
+                          widget.items.map((item) {
+                            final isSelected = item['id'] == _selectedItem;
+                            return GestureDetector(
+                              onTap: () => _selectItem(item['id']),
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      isSelected
+                                          ? Colors.grey[200]
+                                          : Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  item['name'],
+                                  style: context.textTheme.bodyMedium,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                     ),
                   ),
               ],

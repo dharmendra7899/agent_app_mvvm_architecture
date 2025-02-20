@@ -1,6 +1,6 @@
 import "package:agent_app/res/widgets/app_button.dart" show AppButton;
 import "package:agent_app/res/widgets/app_text_field.dart" show AppTextField;
-import "package:agent_app/res/widgets/round_button.dart" show RoundButton;
+import "package:agent_app/res/widgets/context_extension.dart";
 import "package:agent_app/utils/routes/routes_names.dart" show RouteNames;
 import "package:agent_app/utils/utils.dart" show Utils;
 import "package:agent_app/viewModel/auth_provider.dart" show AuthViewModel;
@@ -34,7 +34,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Sign up"),
+          title: Text(
+            "Sign up",
+            style: context.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -130,15 +135,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         debugPrint("hit API");
                       }
                     },
-                    isLoading: authViewmodel.loading,
+                    isLoading: authViewmodel.signupLoading,
                   ),
 
-                  SizedBox(height: height * 0.02),
-                  InkWell(
-                    onTap: () {
+                  SizedBox(height: height * 0.01),
+                  TextButton(
+                    onPressed: () {
                       Navigator.pushNamed(context, RouteNames.login);
                     },
-                    child: const Text("Already have an account? Login Up!"),
+                    child: Text(
+                      "Already have an account? Login Up!",
+                      style: context.textTheme.bodyMedium,
+                    ),
                   ),
                 ],
               ),

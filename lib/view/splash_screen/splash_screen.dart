@@ -1,3 +1,4 @@
+import 'package:agent_app/res/widgets/context_extension.dart';
 import 'package:agent_app/viewModel/splash_service.dart' show SplashService;
 import 'package:flutter/material.dart';
 
@@ -26,10 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Text(
               "Splash Screen",
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey.shade700,
-                  fontWeight: FontWeight.bold),
+              style: context.textTheme.headlineLarge,
             ),
           )
         ],

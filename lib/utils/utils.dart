@@ -1,4 +1,5 @@
 
+import 'package:agent_app/res/widgets/context_extension.dart';
 import 'package:another_flushbar/flushbar.dart' show Flushbar, FlushbarPosition;
 import 'package:another_flushbar/flushbar_route.dart' show showFlushbar;
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class Utils {
       SnackBar(
         content: Text(
           message,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: context.textTheme.bodyMedium?.copyWith(color: Colors.white,),
         ),
         duration: duration,
         backgroundColor:  Colors.green,
@@ -35,8 +36,8 @@ class Utils {
       context: context,
       flushbar: Flushbar(
         forwardAnimationCurve: Curves.decelerate,
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        padding: const EdgeInsets.all(15),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        padding: const EdgeInsets.all(12),
         message: message,
         duration: const Duration(seconds: 3),
         borderRadius: BorderRadius.circular(8),

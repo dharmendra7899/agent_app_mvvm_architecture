@@ -1,4 +1,5 @@
-import 'package:agent_app/res/widgets/colors.dart' show appColors;
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart' show appColors;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -68,8 +69,10 @@ class AppTextField extends StatelessWidget {
     this.counterText,
     this.obscuringCharacter = '•',
     this.textCapitalization = TextCapitalization.words,
-    this.contentPadding =
-        const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+    this.contentPadding = const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 15,
+    ),
     this.inputFormatters,
   });
 
@@ -83,15 +86,14 @@ class AppTextField extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5.0),
             child: Row(
               children: [
-                Text(
-                  labelText??"",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                Text(labelText ?? "", style: context.textTheme.bodyMedium),
                 if (mandatory)
-                  const Text(" *", style: TextStyle(color: Colors.red)),
+                  Text(
+                    " *",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: appColors.error,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -117,46 +119,34 @@ class AppTextField extends StatelessWidget {
             maxLength: maxLength,
             maxLines: maxLines,
             enableSuggestions: true,
-            style: TextStyle(
-              fontFamily: "Roboto",
-              fontSize: fontSize,
-              fontWeight: FontWeight.w400,
-            ),
+            style: context.textTheme.bodyMedium,
             obscuringCharacter: obscuringCharacter,
             decoration: InputDecoration(
-                prefixIcon: prefixIcon,
-                counterText: '',
-                prefix: leadingIcon,
-                // filled: readOnly,
-                hintText: hintText,
-                suffixIcon: iconData,
-                // labelText: labelText == '' ? null :showTitle?"":labelText,
-                contentPadding: contentPadding,
-                alignLabelWithHint: true,
-                hintStyle: const TextStyle(
-                  color: Colors.grey,
-                  fontFamily: "Roboto",
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color:  appColors.appBlack,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color:  appColors.appBlack,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color:  appColors.appBlack,
-                  ),
-                )),
+              prefixIcon: prefixIcon,
+              counterText: '',
+              prefix: leadingIcon,
+              // filled: readOnly,
+              hintText: hintText,
+              suffixIcon: iconData,
+              // labelText: labelText == '' ? null :showTitle?"":labelText,
+              contentPadding: contentPadding,
+              alignLabelWithHint: true,
+              hintStyle: context.textTheme.bodyMedium?.copyWith(
+                color: Colors.grey,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: appColors.appBlack),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: appColors.appBlack),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: appColors.appBlack),
+              ),
+            ),
           ),
         ),
       ],

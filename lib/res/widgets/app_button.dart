@@ -1,6 +1,8 @@
-import 'package:agent_app/res/widgets/colors.dart' show appColors;
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart' show appColors;
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart' show LoadingAnimationWidget;
+import 'package:loading_animation_widget/loading_animation_widget.dart'
+    show LoadingAnimationWidget;
 
 class AppButton extends StatelessWidget {
   final String title;
@@ -15,19 +17,20 @@ class AppButton extends StatelessWidget {
   final double? width;
   final double? fontSize;
 
-  const AppButton(
-      {super.key,
-      required this.onPressed,
-      required this.title,
-      this.color,
-      this.textColor,
-      this.borderColor,
-      this.isBorder,
-      this.radius,
-      this.height = 45,
-      this.fontSize = 16,
-      this.width,
-      this.isLoading = false});
+  const AppButton({
+    super.key,
+    required this.onPressed,
+    required this.title,
+    this.color,
+    this.textColor,
+    this.borderColor,
+    this.isBorder,
+    this.radius,
+    this.height = 45,
+    this.fontSize = 16,
+    this.width,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +40,11 @@ class AppButton extends StatelessWidget {
         width: width ?? MediaQuery.of(context).size.width,
         height: height,
         decoration: BoxDecoration(
-          color: color ??  appColors.primary,
+          color: color ?? appColors.primary,
           borderRadius: BorderRadius.circular(radius ?? 8),
           boxShadow: [
             BoxShadow(
-              color:  appColors.appWhite,
+              color: appColors.appWhite,
               spreadRadius: 2,
               blurRadius: 15,
             ),
@@ -50,38 +53,39 @@ class AppButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isLoading == true ? null : onPressed,
           style: ButtonStyle(
-              padding: WidgetStateProperty.all(
-                EdgeInsets.symmetric(vertical: 2, horizontal: 8.0),
+            padding: WidgetStateProperty.all(
+              EdgeInsets.symmetric(vertical: 2, horizontal: 8.0),
+            ),
+            elevation: WidgetStatePropertyAll(1),
+            backgroundColor: WidgetStatePropertyAll(color ?? appColors.primary),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(radius ?? 8),
+                side: BorderSide(
+                  color:
+                      isBorder == true
+                          ? borderColor ?? appColors.primary
+                          : Colors.transparent,
+                  width: 1.1,
+                ),
               ),
-              elevation: WidgetStatePropertyAll(1),
-              backgroundColor: WidgetStatePropertyAll(
-                color ??  appColors.primary,
-              ),
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(radius ??8),
-                    side: BorderSide(
-                        color: isBorder == true
-                            ? borderColor ??
-                            appColors.primary
-                            : Colors.transparent,
-                        width: 1.1)),
-              )),
+            ),
+          ),
           child: Center(
-              child: isLoading == true
-                  ? LoadingAnimationWidget.staggeredDotsWave(
+            child:
+                isLoading == true
+                    ? LoadingAnimationWidget.staggeredDotsWave(
                       color: appColors.appWhite,
                       size: 30,
                     )
-                  : Text(
+                    : Text(
                       title,
-                      style: TextStyle(
-                        fontFamily: 'LibreFont',
-                        fontSize: fontSize,
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        //  fontSize: fontSize,
                         color: textColor ?? appColors.appWhite,
-                        fontWeight: FontWeight.w500,
                       ),
-                    )),
+                    ),
+          ),
         ),
       ),
     );

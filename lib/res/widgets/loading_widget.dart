@@ -1,11 +1,16 @@
-import 'package:agent_app/res/widgets/colors.dart';
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomLoading extends StatelessWidget {
   final Widget child;
   final bool isLoading;
 
-  const CustomLoading({super.key, required this.child, required this.isLoading});
+  const CustomLoading({
+    super.key,
+    required this.child,
+    required this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +20,18 @@ class CustomLoading extends StatelessWidget {
         if (isLoading)
           Container(
             color: Colors.black.withOpacity(0.6),
-            child:  Center(
+            child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircularProgressIndicator(
                     strokeWidth: 4,
-                    valueColor: AlwaysStoppedAnimation<Color>(appColors.appWhite),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    "Loading...",
-                    style: TextStyle(
-                      color: appColors.appWhite,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      appColors.appWhite,
                     ),
                   ),
+                  SizedBox(height: 16),
+                  Text("Loading...", style: context.textTheme.titleMedium),
                 ],
               ),
             ),
@@ -40,5 +40,3 @@ class CustomLoading extends StatelessWidget {
     );
   }
 }
-
-
