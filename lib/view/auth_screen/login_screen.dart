@@ -1,3 +1,5 @@
+import 'package:agent_app/res/contents/messages.dart';
+import 'package:agent_app/res/contents/texts.dart';
 import 'package:agent_app/res/widgets/app_button.dart' show AppButton;
 import 'package:agent_app/res/widgets/app_text_field.dart';
 import 'package:agent_app/res/widgets/context_extension.dart';
@@ -5,7 +7,9 @@ import 'package:agent_app/theme/colors.dart';
 import 'package:agent_app/utils/routes/routes_names.dart' show RouteNames;
 import 'package:agent_app/utils/utils.dart' show Utils;
 import 'package:agent_app/viewModel/auth_provider.dart' show AuthViewModel;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,34 +39,36 @@ class _LoginScreenState extends State<LoginScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Login",
-            style: context.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Form(
-              key: formKey,
-              autovalidateMode: AutovalidateMode.disabled,
+        appBar: AppBar(centerTitle: true, automaticallyImplyLeading: false),
+        resizeToAvoidBottomInset: true,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: height * 0.02),
+                  Text(
+                    texts.signIn,
+                    style: context.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(texts.welcome, style: context.textTheme.bodyLarge),
+                  SizedBox(height: 40),
                   AppTextField(
-                    labelText: "Email",
+                    labelText: texts.emailAddress,
                     mandatory: true,
                     controller: _emailController,
                     focusNode: _emailFocus,
                     keyBoardType: TextInputType.emailAddress,
                     hintText: "Enter Your Email",
                     prefixIcon: const Icon(Icons.email_outlined),
+                    inputFormatters: [LengthLimitingTextInputFormatter(130)],
                     onFieldSubmitted: (value) {
                       Utils.changeNodeFocus(
                         context,
@@ -69,26 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         next: _passwordFocus,
                       );
                     },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Email is required";
-                      }
-                      String pattern =
-                          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                      RegExp regex = RegExp(pattern);
-                      if (!regex.hasMatch(value)) {
-                        return "Email is not valid";
-                      }
-                      return null;
-                    },
+                    validator: (val) => Utils.validateEmail(val ?? ''),
                   ),
-
                   const SizedBox(height: 20),
                   ValueListenableBuilder(
                     valueListenable: _obSecureNotifier,
                     builder: ((context, value, child) {
                       return AppTextField(
-                        labelText: "Password",
+                        labelText: texts.password,
                         mandatory: true,
                         controller: _passwordController,
                         focusNode: _passwordFocus,
@@ -97,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscuringCharacter: "*",
                         hintText: "Enter Your Password",
                         prefixIcon: const Icon(Icons.lock_outline),
+                        inputFormatters: [LengthLimitingTextInputFormatter(30)],
                         iconData:
                             _obSecureNotifier.value
                                 ? InkWell(
@@ -113,22 +109,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                   child: const Icon(Icons.visibility_off),
                                 ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Password is required";
-                          }
-                          return null;
-                        },
+                        validator: (val) => Utils.passwordValidator(val ?? ''),
                       );
                     }),
                   ),
-
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {},
                       child: Text(
-                        "Forgot Password",
+                        texts.forgetPassword,
                         style: context.textTheme.bodyLarge?.copyWith(
                           color: appColors.primary,
                         ),
@@ -137,6 +127,77 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   SizedBox(height: height * 0.08),
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                        visualDensity: VisualDensity.compact,
+                        value: isChecked,
+                        onChanged: (value) {
+                          setState(() {
+                            isChecked = value!;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: texts.iAgree,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: appColors.appBlack,
+                                  fontFamily: 'Montserrat',
+                                ),
+                              ),
+                              TextSpan(
+                                text: texts.terms,
+                                style: TextStyle(
+                                  color: appColors.secondary,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                recognizer:
+                                    TapGestureRecognizer()
+                                      ..onTap = () {
+                                        /*   InAppWebView.route(
+                                      context,
+                                      ApiConstants.PRIVACY_POLICY,
+                                      texts.privacy);*/
+                                      },
+                              ),
+                              TextSpan(
+                                text: texts.and,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: appColors.appBlack,
+                                  fontFamily: 'Montserrat',
+                                ),
+                              ),
+                              TextSpan(
+                                text: texts.privacy,
+                                style: TextStyle(
+                                  color: appColors.secondary,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                recognizer:
+                                    TapGestureRecognizer()
+                                      ..onTap = () {
+                                        /* InAppWebView.route(
+                                      context,
+                                      ApiConstants.PRIVACY_POLICY,
+                                      texts.privacy);*/
+                                      },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 20),
 
                   AppButton(
                     title: "Login",
@@ -144,25 +205,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       _passwordFocus.unfocus();
                       if (formKey.currentState == null ||
                           formKey.currentState!.validate()) {
-                        Map data = {
-                          "username": _emailController.text.toString(),
-                          "password": _passwordController.text.toString(),
-                        };
-                        authViewmodel.apiLogin(data, context);
-                        debugPrint("hit API");
+                        if (!isChecked) {
+                          Utils.flushBarErrorMessage(
+                            Messages.TERMS_REQ,
+                            context,
+                          );
+                        } else {
+                          Map data = {
+                            "username": _emailController.text.toString(),
+                            "password": _passwordController.text.toString(),
+                          };
+                          authViewmodel.apiLogin(data, context);
+                          debugPrint("hit API");
+                        }
                       }
                     },
                     isLoading: authViewmodel.loading,
                   ),
 
-                  SizedBox(height: height * 0.01),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RouteNames.signupScreen);
-                    },
-                    child: Text(
-                      "Don't have an account yet? Sign Up!",
-                      style: context.textTheme.bodyMedium,
+                  SizedBox(height: height * 0.005),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, RouteNames.signupScreen);
+                      },
+                      child: Text(
+                        "Don't have an account yet? Sign Up!",
+                        style: context.textTheme.bodyLarge,
+                      ),
                     ),
                   ),
                 ],
