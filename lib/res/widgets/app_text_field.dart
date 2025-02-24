@@ -119,7 +119,7 @@ class AppTextField extends StatelessWidget {
             maxLength: maxLength,
             maxLines: maxLines,
             enableSuggestions: true,
-            style: context.textTheme.bodyMedium,
+            style: context.textTheme.bodyLarge,
             obscuringCharacter: obscuringCharacter,
             decoration: InputDecoration(
               prefixIcon: prefixIcon,
@@ -128,7 +128,6 @@ class AppTextField extends StatelessWidget {
               // filled: readOnly,
               hintText: hintText,
               suffixIcon: iconData,
-              // labelText: labelText == '' ? null :showTitle?"":labelText,
               contentPadding: contentPadding,
               alignLabelWithHint: true,
               hintStyle: context.textTheme.bodyMedium?.copyWith(

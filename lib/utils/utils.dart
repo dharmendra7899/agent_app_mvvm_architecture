@@ -51,6 +51,7 @@ class Utils {
         backgroundColor: Colors.red,
         reverseAnimationCurve: Curves.easeInOut,
         positionOffset: 20,
+        messageSize: 14,
         icon: const Icon(Icons.error, size: 28, color: Colors.white),
       )..show(context),
     );

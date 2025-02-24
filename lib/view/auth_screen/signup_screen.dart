@@ -27,7 +27,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _mobileNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+  TextEditingController();
   final formKey = GlobalKey<FormState>();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
@@ -36,7 +37,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 1;
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height * 1;
     final authViewmodel = Provider.of<AuthViewModel>(context);
 
     return GestureDetector(
@@ -77,9 +81,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       prefixIcon: const Icon(Icons.person),
                       validator:
                           (val) =>
-                              val == null || val.isEmpty
-                                  ? Messages.FIRST_NAME_REQ
-                                  : null,
+                      val == null || val.isEmpty
+                          ? Messages.FIRST_NAME_REQ
+                          : null,
                     ),
                     const SizedBox(height: 20),
                     AppTextField(
@@ -93,9 +97,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       prefixIcon: const Icon(Icons.person),
                       validator:
                           (val) =>
-                              val == null || val.isEmpty
-                                  ? Messages.LAST_NAME_REQ
-                                  : null,
+                      val == null || val.isEmpty
+                          ? Messages.LAST_NAME_REQ
+                          : null,
                     ),
                     const SizedBox(height: 20),
                     AppTextField(
@@ -145,22 +149,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: "Enter Your Password",
                           prefixIcon: const Icon(Icons.lock_outline),
                           iconData:
-                              _obSecureNotifier.value
-                                  ? InkWell(
-                                    onTap: () {
-                                      _obSecureNotifier.value =
-                                          !_obSecureNotifier.value;
-                                    },
-                                    child: const Icon(Icons.visibility),
-                                  )
-                                  : InkWell(
-                                    onTap: () {
-                                      _obSecureNotifier.value =
-                                          !_obSecureNotifier.value;
-                                    },
-                                    child: const Icon(Icons.visibility_off),
-                                  ),
-                          validator: (val) => Utils.passwordValidator(val ?? ''),
+                          _obSecureNotifier.value
+                              ? InkWell(
+                            onTap: () {
+                              _obSecureNotifier.value =
+                              !_obSecureNotifier.value;
+                            },
+                            child: const Icon(Icons.visibility),
+                          )
+                              : InkWell(
+                            onTap: () {
+                              _obSecureNotifier.value =
+                              !_obSecureNotifier.value;
+                            },
+                            child: const Icon(Icons.visibility_off),
+                          ),
+                          validator:
+                              (val) => Utils.passwordValidator(val ?? ''),
                         );
                       }),
                     ),
@@ -179,26 +184,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: "Enter Your Confirm Password",
                           prefixIcon: const Icon(Icons.lock_outline),
                           iconData:
-                              _obSecureNotifier2.value
-                                  ? InkWell(
-                                    onTap: () {
-                                      _obSecureNotifier2.value =
-                                          !_obSecureNotifier2.value;
-                                    },
-                                    child: const Icon(Icons.visibility),
-                                  )
-                                  : InkWell(
-                                    onTap: () {
-                                      _obSecureNotifier2.value =
-                                          !_obSecureNotifier2.value;
-                                    },
-                                    child: const Icon(Icons.visibility_off),
-                                  ),
+                          _obSecureNotifier2.value
+                              ? InkWell(
+                            onTap: () {
+                              _obSecureNotifier2.value =
+                              !_obSecureNotifier2.value;
+                            },
+                            child: const Icon(Icons.visibility),
+                          )
+                              : InkWell(
+                            onTap: () {
+                              _obSecureNotifier2.value =
+                              !_obSecureNotifier2.value;
+                            },
+                            child: const Icon(Icons.visibility_off),
+                          ),
                           validator: (value) {
-                            if(value ==null || value.isEmpty){
+                            if (value == null || value.isEmpty) {
                               return Messages.CONFIRM_PASSWORD_REQ;
-                            }else
-                             if (_passwordController.text != value) {
+                            } else if (_passwordController.text != value) {
                               return Messages.CON_PASSWORD_NOT_MATCHED;
                             }
                             return null;
@@ -224,51 +228,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               children: <TextSpan>[
                                 TextSpan(
                                   text: texts.iAgree,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: appColors.appBlack,
-                                    fontFamily: 'Montserrat',
-                                  ),
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 TextSpan(
                                   text: texts.terms,
-                                  style: TextStyle(
+                                  style: context.textTheme.bodyMedium?.copyWith(
                                     color: appColors.secondary,
-                                    fontFamily: 'Montserrat',
+
                                     fontWeight: FontWeight.w600,
                                   ),
                                   recognizer:
-                                      TapGestureRecognizer()
-                                        ..onTap = () {
-                                          /*   InAppWebView.route(
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      /*   InAppWebView.route(
                                         context,
                                         ApiConstants.PRIVACY_POLICY,
                                         texts.privacy);*/
-                                        },
+                                    },
                                 ),
                                 TextSpan(
                                   text: texts.and,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: appColors.appBlack,
-                                    fontFamily: 'Montserrat',
-                                  ),
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 TextSpan(
                                   text: texts.privacy,
-                                  style: TextStyle(
+                                  style: context.textTheme.bodyMedium?.copyWith(
                                     color: appColors.secondary,
-                                    fontFamily: 'Montserrat',
+
                                     fontWeight: FontWeight.w600,
                                   ),
                                   recognizer:
-                                      TapGestureRecognizer()
-                                        ..onTap = () {
-                                          /* InAppWebView.route(
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      /* InAppWebView.route(
                                         context,
                                         ApiConstants.PRIVACY_POLICY,
                                         texts.privacy);*/
-                                        },
+                                    },
                                 ),
                               ],
                             ),
@@ -276,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ],
                     ),
-                
+
                     SizedBox(height: 10),
                     AppButton(
                       title: "Sign Up",
@@ -286,9 +282,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             formKey.currentState!.validate()) {
                           if (!isChecked) {
                             Utils.flushBarErrorMessage(
-                              Messages.TERMS_REQ, context,
+                              Messages.TERMS_REQ,
+                              context,
                             );
-                          }else{
+                          } else {
                             Map data = {
                               "email": _emailController.text.toString(),
                               "password": _passwordController.text.toString(),
@@ -296,23 +293,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             authViewmodel.apiSignUp(data, context);
                             debugPrint("hit API");
                           }
-          
                         }
                       },
                       isLoading: authViewmodel.signupLoading,
                     ),
-                    SizedBox(height: height * 0.005),
-                    Align(alignment: Alignment.bottomCenter,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, RouteNames.login);
-                        },
-                        child: Text(
-                          "Already have an account? Login Up!",
-                          style: context.textTheme.bodyMedium,
+
+                    SizedBox(height: 20),
+
+                    Align(
+                      alignment: Alignment.center,
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: texts.alreadyAccount,
+                              style: context.textTheme.bodyMedium,
+                            ),
+                            TextSpan(
+                              text: texts.signIn,
+                              style: context.textTheme.bodyMedium?.copyWith(
+                                color: appColors.secondary,
+
+                                fontWeight: FontWeight.w600,
+                              ),
+                              recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushNamed(context, RouteNames.login);
+                                },
+                            ),
+                          ],
                         ),
                       ),
                     ),
+
+
                     SizedBox(height: height * 0.02),
                   ],
                 ),

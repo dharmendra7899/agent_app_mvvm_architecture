@@ -31,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
-    final authViewmodel = Provider.of<AuthViewModel>(context);
 
     return GestureDetector(
       onTap: () {
@@ -41,153 +40,226 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         appBar: AppBar(centerTitle: true, automaticallyImplyLeading: false),
         resizeToAvoidBottomInset: true,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Form(
-            key: formKey,
-            autovalidateMode: AutovalidateMode.disabled,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: height * 0.02),
-                  Text(
-                    texts.signIn,
-                    style: context.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(texts.welcome, style: context.textTheme.bodyLarge),
-                  SizedBox(height: 40),
-                  AppTextField(
-                    labelText: texts.emailAddress,
-                    mandatory: true,
-                    controller: _emailController,
-                    focusNode: _emailFocus,
-                    keyBoardType: TextInputType.emailAddress,
-                    hintText: "Enter Your Email",
-                    prefixIcon: const Icon(Icons.email_outlined),
-                    inputFormatters: [LengthLimitingTextInputFormatter(130)],
-                    onFieldSubmitted: (value) {
-                      Utils.changeNodeFocus(
-                        context,
-                        current: _emailFocus,
-                        next: _passwordFocus,
-                      );
-                    },
-                    validator: (val) => Utils.validateEmail(val ?? ''),
-                  ),
-                  const SizedBox(height: 20),
-                  ValueListenableBuilder(
-                    valueListenable: _obSecureNotifier,
-                    builder: ((context, value, child) {
-                      return AppTextField(
-                        labelText: texts.password,
-                        mandatory: true,
-                        controller: _passwordController,
-                        focusNode: _passwordFocus,
-                        obscureText: _obSecureNotifier.value,
-                        keyBoardType: TextInputType.visiblePassword,
-                        obscuringCharacter: "*",
-                        hintText: "Enter Your Password",
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        inputFormatters: [LengthLimitingTextInputFormatter(30)],
-                        iconData:
-                            _obSecureNotifier.value
-                                ? InkWell(
-                                  onTap: () {
-                                    _obSecureNotifier.value =
-                                        !_obSecureNotifier.value;
-                                  },
-                                  child: const Icon(Icons.visibility),
-                                )
-                                : InkWell(
-                                  onTap: () {
-                                    _obSecureNotifier.value =
-                                        !_obSecureNotifier.value;
-                                  },
-                                  child: const Icon(Icons.visibility_off),
-                                ),
-                        validator: (val) => Utils.passwordValidator(val ?? ''),
-                      );
-                    }),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        texts.forgetPassword,
-                        style: context.textTheme.bodyLarge?.copyWith(
-                          color: appColors.primary,
+        body: Consumer<AuthViewModel>(
+          builder: (context, authViewModel, child) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.disabled,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: height * 0.02),
+                      Text(
+                        texts.signIn,
+                        style: context.textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                  ),
+                      Text(texts.welcome, style: context.textTheme.bodyLarge),
+                      SizedBox(height: 40),
+                      AppTextField(
+                        labelText: texts.emailAddress,
+                        mandatory: true,
+                        controller: _emailController,
+                        focusNode: _emailFocus,
+                        keyBoardType: TextInputType.emailAddress,
+                        hintText: "Enter Your Email",
+                        prefixIcon: const Icon(Icons.email_outlined),
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(130),
+                        ],
+                        onFieldSubmitted: (value) {
+                          Utils.changeNodeFocus(
+                            context,
+                            current: _emailFocus,
+                            next: _passwordFocus,
+                          );
+                        },
+                        validator: (val) => Utils.validateEmail(val ?? ''),
+                      ),
+                      const SizedBox(height: 20),
+                      ValueListenableBuilder(
+                        valueListenable: _obSecureNotifier,
+                        builder: ((context, value, child) {
+                          return AppTextField(
+                            labelText: texts.password,
+                            mandatory: true,
+                            controller: _passwordController,
+                            focusNode: _passwordFocus,
+                            obscureText: _obSecureNotifier.value,
+                            keyBoardType: TextInputType.visiblePassword,
+                            obscuringCharacter: "*",
+                            hintText: "Enter Your Password",
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(30),
+                            ],
+                            iconData:
+                                _obSecureNotifier.value
+                                    ? InkWell(
+                                      onTap: () {
+                                        _obSecureNotifier.value =
+                                            !_obSecureNotifier.value;
+                                      },
+                                      child: const Icon(Icons.visibility),
+                                    )
+                                    : InkWell(
+                                      onTap: () {
+                                        _obSecureNotifier.value =
+                                            !_obSecureNotifier.value;
+                                      },
+                                      child: const Icon(Icons.visibility_off),
+                                    ),
+                            validator:
+                                (val) => Utils.passwordValidator(val ?? ''),
+                          );
+                        }),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              RouteNames.forgetPasswordScreen,
+                            );
+                          },
+                          child: Text(
+                            texts.forgetPassword,
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              color: appColors.primary,
+                            ),
+                          ),
+                        ),
+                      ),
 
-                  SizedBox(height: height * 0.08),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                        visualDensity: VisualDensity.compact,
-                        value: isChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            isChecked = value!;
-                          });
+                      SizedBox(height: height * 0.05),
+                      Row(
+                        children: <Widget>[
+                          Checkbox(
+                            visualDensity: VisualDensity.compact,
+                            value: isChecked,
+                            onChanged: (value) {
+                              setState(() {
+                                isChecked = value!;
+                              });
+                            },
+                          ),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: texts.iAgree,
+                                    style: context.textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: texts.terms,
+                                    style: context.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: appColors.secondary,
+
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                    recognizer:
+                                        TapGestureRecognizer()
+                                          ..onTap = () {
+                                            /*   InAppWebView.route(
+                                            context,
+                                            ApiConstants.PRIVACY_POLICY,
+                                            texts.privacy);*/
+                                          },
+                                  ),
+                                  TextSpan(
+                                    text: texts.and,
+                                    style: context.textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: texts.privacy,
+                                    style: context.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: appColors.secondary,
+
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                    recognizer:
+                                        TapGestureRecognizer()
+                                          ..onTap = () {
+                                            /* InAppWebView.route(
+                                            context,
+                                            ApiConstants.PRIVACY_POLICY,
+                                            texts.privacy);*/
+                                          },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 20),
+
+                      Consumer(
+                        builder: (context, provider, child) {
+                          return AppButton(
+                            title: "Login",
+                            onPressed: () {
+                              _passwordFocus.unfocus();
+                              if (formKey.currentState == null ||
+                                  formKey.currentState!.validate()) {
+                                if (!isChecked) {
+                                  Utils.flushBarErrorMessage(
+                                    Messages.TERMS_REQ,
+                                    context,
+                                  );
+                                } else {
+                                  Map data = {
+                                    "username":
+                                        _emailController.text.toString(),
+                                    "password":
+                                        _passwordController.text.toString(),
+                                  };
+                                  authViewModel.apiLogin(data, context);
+                                  debugPrint("hit API");
+                                }
+                              }
+                            },
+                            isLoading: authViewModel.loading,
+                          );
                         },
                       ),
-                      Expanded(
+
+                      SizedBox(height: 20),
+
+                      Align(
+                        alignment: Alignment.center,
                         child: RichText(
+                          textAlign: TextAlign.center,
                           text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: texts.iAgree,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: appColors.appBlack,
-                                  fontFamily: 'Montserrat',
-                                ),
+                                text: texts.notUser,
+                                style: context.textTheme.bodyMedium,
                               ),
                               TextSpan(
-                                text: texts.terms,
-                                style: TextStyle(
+                                text: texts.signUp,
+                                style: context.textTheme.bodyMedium?.copyWith(
                                   color: appColors.secondary,
-                                  fontFamily: 'Montserrat',
+
                                   fontWeight: FontWeight.w600,
                                 ),
                                 recognizer:
                                     TapGestureRecognizer()
                                       ..onTap = () {
-                                        /*   InAppWebView.route(
-                                      context,
-                                      ApiConstants.PRIVACY_POLICY,
-                                      texts.privacy);*/
-                                      },
-                              ),
-                              TextSpan(
-                                text: texts.and,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: appColors.appBlack,
-                                  fontFamily: 'Montserrat',
-                                ),
-                              ),
-                              TextSpan(
-                                text: texts.privacy,
-                                style: TextStyle(
-                                  color: appColors.secondary,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                recognizer:
-                                    TapGestureRecognizer()
-                                      ..onTap = () {
-                                        /* InAppWebView.route(
-                                      context,
-                                      ApiConstants.PRIVACY_POLICY,
-                                      texts.privacy);*/
+                                        Navigator.pushNamed(
+                                          context,
+                                          RouteNames.signupScreen,
+                                        );
                                       },
                               ),
                             ],
@@ -196,50 +268,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-
-                  SizedBox(height: 20),
-
-                  AppButton(
-                    title: "Login",
-                    onPressed: () {
-                      _passwordFocus.unfocus();
-                      if (formKey.currentState == null ||
-                          formKey.currentState!.validate()) {
-                        if (!isChecked) {
-                          Utils.flushBarErrorMessage(
-                            Messages.TERMS_REQ,
-                            context,
-                          );
-                        } else {
-                          Map data = {
-                            "username": _emailController.text.toString(),
-                            "password": _passwordController.text.toString(),
-                          };
-                          authViewmodel.apiLogin(data, context);
-                          debugPrint("hit API");
-                        }
-                      }
-                    },
-                    isLoading: authViewmodel.loading,
-                  ),
-
-                  SizedBox(height: height * 0.005),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RouteNames.signupScreen);
-                      },
-                      child: Text(
-                        "Don't have an account yet? Sign Up!",
-                        style: context.textTheme.bodyLarge,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

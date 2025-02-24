@@ -80,7 +80,7 @@ class AppButton extends StatelessWidget {
                     )
                     : Text(
                       title,
-                      style: context.textTheme.bodyLarge?.copyWith(
+                      style: context.textTheme.titleMedium?.copyWith(
                         //  fontSize: fontSize,
                         color: textColor ?? appColors.appWhite,
                       ),

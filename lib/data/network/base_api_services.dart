@@ -1,4 +1,8 @@
+import 'package:agent_app/data/response/api_response.dart';
+
 abstract class BaseApiServices {
-  Future<dynamic> getGetApiResponse(String url);
-  Future<dynamic> getPostApiResponse(String url, dynamic data);
+
+  Future<ApiResponse<T>> getGetApiResponse<T>(String url);
+
+  Future<ApiResponse<T>> getPostApiResponse<T>(String url, dynamic data);
 }

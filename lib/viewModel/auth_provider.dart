@@ -1,19 +1,56 @@
-import 'package:agent_app/models/user_model.dart' show UserModel;
+import 'dart:convert';
+
+import 'package:agent_app/models/login_response_data_model.dart';
+import 'package:agent_app/preferences/preferences.dart';
 import 'package:agent_app/repository/auth_repository.dart' show AuthRepository;
 import 'package:agent_app/utils/utils.dart' show Utils;
-import 'package:agent_app/viewModel/user_view_model.dart' show UserViewModel;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthViewModel with ChangeNotifier {
+class AuthViewModel extends ChangeNotifier with Preferences {
   final _auth = AuthRepository();
+
+  late final SharedPreferences _preferences;
+  String? _token = '';
+
+  String? get token => _token;
+  LoginData _login = LoginData();
+
+  LoginData get login => _login;
+
+  AuthViewModel(this._preferences) {
+    _token = _preferences.getString(KEYS.token.toString()) ?? '';
+    var userDetails =
+        _preferences.getString(KEYS.userCredentials.toString()) ?? '';
+    debugPrint("user details--->$userDetails");
+    debugPrint("TOKEN--->$token");
+    if (userDetails == '') {
+    } else {
+      Map<String, dynamic> userDetail = jsonDecode(userDetails);
+      _login = LoginData.fromJson(userDetail);
+    }
+  }
 
   bool _loginLoading = false;
   bool _signupLoading = false;
+  bool _isShowNewPassword = false;
 
   get loading => _loginLoading;
 
   get signupLoading => _signupLoading;
+
+  get isShowNewPassword => _isShowNewPassword;
+
+  void updatePasswordStatus(bool value) {
+    _isShowNewPassword = value;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    updatePasswordStatus(false);
+    super.dispose();
+  }
 
   void setLoginLoading(bool value) {
     _loginLoading = value;
@@ -29,23 +66,22 @@ class AuthViewModel with ChangeNotifier {
     setLoginLoading(true);
     _auth
         .apiLogin(data)
-        .then((value) {
+        .then((value) async {
           setLoginLoading(false);
+          _login = LoginData.fromJson(data);
           if (context.mounted) {
-            final userPreference = Provider.of<UserViewModel>(
-              context,
-              listen: false,
-            );
-            userPreference.saveUser(
-              UserModel(token: value['token'].toString()),
-            );
-            Utils.toastMessage(message: "Login Successful", context);
+            await setUserDetails(_login);
+            await setToken(_login.token ?? '');
+            if (context.mounted) {
+              Utils.toastMessage(message: "Login Successful", context);
+            }
             //Navigator.pushNamed(context, RouteNames.home);
           }
         })
         .onError((error, stackTrace) {
+          debugPrint("3487657846845 :::  ${error.toString()}");
           if (context.mounted) {
-            Utils.flushBarErrorMessage(error.toString(), context);
+            // Utils.flushBarErrorMessage(error.toString(), context);
           }
           setLoginLoading(false);
         });
@@ -59,7 +95,7 @@ class AuthViewModel with ChangeNotifier {
           if (context.mounted) {
             Utils.flushBarErrorMessage("Sign Up Successful", context);
 
-           // Navigator.pushNamed(context, RouteNames.home);
+            // Navigator.pushNamed(context, RouteNames.home);
           }
           setSignUpLoading(false);
         })

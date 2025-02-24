@@ -24,17 +24,30 @@ class Texts {
   String get signIn => 'Sign In';
   String get welcome => 'Welcome back log in to your account';
 
-  String get mobile => 'Mobile Number';
 
-  String get password => 'Password';
-  String get forgetPassword => 'Forgot Password?';
 
   String get confirmPassword => 'Confirm Password';
+  String get confirmNewPassword => 'Confirm New Password';
   String get emailAddress => 'Email Address';
-
   String get signInWithOtp => 'Sign in with OTP';
-
   String get iAgree => 'I agree to the. ';
+  String get notUser => '''Don't have an account? ''';
+
+  String get forgotPassword => 'Forgot Password';
+  String get forgetPassword => 'Forgot Password?';
+  String get updatePassword => 'Update Password';
+
+  String get signUp => 'Sign Up';
+  String get register => 'Register';
+  String get firstName => 'First Name';
+  String get lastName => 'Last Name';
+  String get mobile => 'Mobile Number';
+  String get password => 'Password';
+  String get newPassword => 'New Password';
+  String get otp => 'OTP';
+  String get sendOTP => 'Send OTP';
+  String get verifyOTP => 'verify OTP';
+  String get alreadyAccount => 'Already have an account? ';
 
   String get terms => 'T&C';
   String get or => 'Or';
@@ -45,41 +58,20 @@ class Texts {
   String get termCondition => 'Terms & Conditions';
   String get faq => 'FAQs';
   String get subscription => 'Subscription';
-
   String get con => 'Continue';
   String get update => 'Update';
 
-  String get register => 'Register';
   String get google => 'Sign in with Google';
   String get apple => 'Sign in with Apple';
 
-  String get notUser => 'Not a user? ';
-
-  String get forgotPassword => 'Forgot Password';
-
-  String get signUp => 'Sign Up';
-
-  String get firstName => 'First Name';
-  String get lastName => 'Last Name';
-
-  String get alreadyAccount => 'Already have an account? ';
 
   String get home => 'Home';
   String get setting => 'Setting';
   String get start => 'Start';
-  String get pin => 'Pins';
-  String get line => 'Lines';
   String get upload => 'Upload image ';
-
-  String get art => 'Art';
-
-
   String get account => 'Account';
-
-  String get album => 'Albums';
   String get profile => 'Profile';
   String get logout => 'Logout';
-  String get plan => 'Subscribe Plans';
 }
 
 final texts = Texts();

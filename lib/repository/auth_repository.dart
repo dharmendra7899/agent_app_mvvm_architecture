@@ -13,9 +13,10 @@ class AuthRepository {
       final response = await _network.getPostApiResponse(
         AppUrls.loginEndPoint,
         data,
+
       );
-      debugPrint("Response652364723674: ${response['data']}");
-      return response['data'];
+      debugPrint("Response652364723674: $response");
+      return response.data;
     } catch (e) {
       debugPrint("Response catch: $e");
       rethrow; //Big Brain

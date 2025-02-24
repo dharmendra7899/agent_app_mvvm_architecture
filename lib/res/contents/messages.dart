@@ -21,13 +21,18 @@ class Messages {
 
   static String get PASSWORD_REQ => 'Please enter password.';
 
-  static String get CONFIRM_PASSWORD_REQ => 'Please enter confirm-password.';
+  static String get CONFIRM_PASSWORD_REQ => 'Please enter confirm password.';
+
+  static String get NEW_PASSWORD_REQ => 'Please enter new password.';
 
   static String get SPECIAL_CHARACTER =>
       'Password: 8+ chars, 1 uppercase, 1 number, 1 special character.';
 
   static String get CON_PASSWORD_NOT_MATCHED =>
       'Password and confirm password did not matched';
+
+  static String get CON_NEW_PASSWORD_NOT_MATCHED =>
+      'New password and confirm new password did not matched';
 
   static String get TERMS_REQ => 'Please accept terms & conditions';
 }
