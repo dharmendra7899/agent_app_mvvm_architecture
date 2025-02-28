@@ -105,7 +105,7 @@ class AuthProvider with ChangeNotifier {
       if (value) {
         if (context.mounted) {
           //walkthrough
-          Navigator.pushNamed(context, RouteNames.login);
+          Navigator.pushNamed(context, RouteNames.walkThroughScreen);
         }
       } else {
         sessionManager.getToken().then((value) {
@@ -115,8 +115,7 @@ class AuthProvider with ChangeNotifier {
             }
           } else {
             if (context.mounted) {
-              //dashboard
-              //Navigator.pushNamed(context, RouteNames.login);
+              Navigator.pushNamed(context, RouteNames.bottomNavigationScreen);
             }
           }
         });

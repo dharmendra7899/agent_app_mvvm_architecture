@@ -1,19 +1,15 @@
 class Texts {
-  String get w1Title => 'String Art';
+  String get w1Title => 'Purchase Online !!';
 
-  String get w1Des => 'Painting portraits with the most beautiful thread';
+  String get w1Des => 'Lorem ipsum dolor sit amet, consectetur adipiscing,sed do eiusmod tempor ut labore';
 
-  String get w2Title => 'Drawing Tutorial';
+  String get w2Title => 'Track order !!';
 
-  String get w2Des => 'Easy physics drawing tutorial';
+  String get w2Des => 'Lorem ipsum dolor sit amet, consectetur adipiscing,sed do eiusmod tempor ut labore';
 
-  String get w3Title => 'Drawing Tutorial Color';
+  String get w3Title => 'Get your order !!';
 
-  String get w3Des => 'Use 3 Primary Colors for color mode';
-
-  String get w4Title => 'Color Mode';
-
-  String get w4Des => 'Unique coloring feature';
+  String get w3Des => 'Lorem ipsum dolor sit amet, consectetur adipiscing,sed do eiusmod tempor ut labore';
 
   String get getStarted => 'Get Started';
 
