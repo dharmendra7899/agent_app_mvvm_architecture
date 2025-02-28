@@ -1,19 +1,22 @@
-import 'package:agent_app/viewModel/auth_provider.dart' show AuthViewModel;
+import 'package:agent_app/injection_container.dart' as di;
+import 'package:agent_app/modules/auth/view_model/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Providers extends StatelessWidget {
   final Widget widget;
-  final AuthViewModel state;
 
-  const Providers({super.key, required this.widget, required this.state});
+  const Providers({super.key, required this.widget});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => state,
+          create: (context) => AuthProvider(
+            authRepo: di.serviceLocator(),
+            sessionManager: di.serviceLocator(),
+          ),
         ),
       ],
       child: widget,

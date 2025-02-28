@@ -1,3 +1,4 @@
+import 'package:agent_app/modules/auth/view_model/auth_provider.dart';
 import 'package:agent_app/res/contents/messages.dart';
 import 'package:agent_app/res/contents/texts.dart';
 import 'package:agent_app/res/widgets/app_button.dart' show AppButton;
@@ -6,7 +7,6 @@ import 'package:agent_app/res/widgets/context_extension.dart';
 import 'package:agent_app/theme/colors.dart';
 import 'package:agent_app/utils/routes/routes_names.dart' show RouteNames;
 import 'package:agent_app/utils/utils.dart' show Utils;
-import 'package:agent_app/viewModel/auth_provider.dart' show AuthViewModel;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         appBar: AppBar(centerTitle: true, automaticallyImplyLeading: false),
         resizeToAvoidBottomInset: true,
-        body: Consumer<AuthViewModel>(
+        body: Consumer<AuthProvider>(
           builder: (context, authViewModel, child) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -218,18 +218,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                   );
                                 } else {
-                                  Map data = {
-                                    "username":
-                                        _emailController.text.toString(),
-                                    "password":
+
+                                  authViewModel.login(
+                                    email: _emailController.text.toString(),
+                                    password:
                                         _passwordController.text.toString(),
-                                  };
-                                  authViewModel.apiLogin(data, context);
+                                    context: context,
+                                  );
                                   debugPrint("hit API");
                                 }
                               }
                             },
-                            isLoading: authViewModel.loading,
+                            isLoading: authViewModel.showLoader,
                           );
                         },
                       ),
