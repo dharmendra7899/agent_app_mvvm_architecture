@@ -63,8 +63,8 @@ class AuthProvider with ChangeNotifier {
         );
         _setShowLoader(false);
         Utils.toastMessage(context, message: response.message ?? "");
+        Navigator.popAndPushNamed(context, RouteNames.bottomNavigationScreen);
 
-        // navigateRemoveUntil(context: context, to: const BottomNavigation());
         notifyListeners();
       },
     );
@@ -94,8 +94,7 @@ class AuthProvider with ChangeNotifier {
         _setShowLoader(false);
         //otp screen
         Utils.toastMessage(context, message: message);
-
-        /// Navigator.pushNamed(context, RouteNames.login);
+        // Navigator.pushNamed(context, RouteNames.login);
       },
     );
   }
@@ -115,7 +114,10 @@ class AuthProvider with ChangeNotifier {
             }
           } else {
             if (context.mounted) {
-              Navigator.popAndPushNamed(context, RouteNames.bottomNavigationScreen);
+              Navigator.popAndPushNamed(
+                context,
+                RouteNames.bottomNavigationScreen,
+              );
             }
           }
         });

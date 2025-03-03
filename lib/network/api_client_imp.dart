@@ -4,6 +4,7 @@ import 'package:agent_app/helpers/session_manager.dart';
 import 'package:agent_app/network/response_model.dart';
 import 'package:agent_app/res/app_urls.dart';
 import 'package:agent_app/res/contents/messages.dart';
+import 'package:agent_app/utils/printer.dart';
 import 'package:flutter/material.dart';
 import 'package:http_parser/src/media_type.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +32,7 @@ class ApiClientImp implements ApiClient {
 
     debugPrint('URL: ${AppUrls.baseUrl + url}');
     debugPrint('Body: $body');
+
     debugPrint('Authorization: ${headers['Authorization']}');
 
     bool isConnected = await ConnectivityProvider.checkConnectivity();
@@ -54,8 +56,10 @@ class ApiClientImp implements ApiClient {
           debugPrint('Network Error: $error');
           throw ServerError(201, Messages.SERVER_NOT_RESPONDING);
         });
+
     debugPrint('Status Code :: ${response.statusCode}');
-    debugPrint('Response Data: ${response.body}');
+
+    Printer.printResponse(response);
     if (response.statusCode == 200 || response.statusCode == 201) {
       var data = ResponseModel.fromJson(jsonDecode(response.body));
       return data;
@@ -81,7 +85,6 @@ class ApiClientImp implements ApiClient {
     if (!isConnected) {
       throw ServerError(201, Messages.NO_INTERNET);
     }
-
     http.Response response = await http
         .get(Uri.parse(AppUrls.baseUrl + url), headers: headers)
         .timeout(
@@ -94,8 +97,9 @@ class ApiClientImp implements ApiClient {
           debugPrint('Network Error: $error');
           throw ServerError(201, Messages.SERVER_NOT_RESPONDING);
         });
+
     debugPrint('Status Code :: ${response.statusCode}');
-    debugPrint('Response Data: ${response.body}');
+    Printer.printResponse(response);
     if (response.statusCode == 200 || response.statusCode == 201) {
       var data = ResponseModel.fromJson(jsonDecode(response.body));
       return data;
@@ -141,7 +145,7 @@ class ApiClientImp implements ApiClient {
           debugPrint('Network Error: $error');
           throw ServerError(201, Messages.SERVER_NOT_RESPONDING);
         });
-    debugPrint('Response Data: ${response.body}');
+    Printer.printResponse(response);
     if (response.statusCode == 200) {
       var data = ResponseModel.fromJson(jsonDecode(response.body));
       return data;
@@ -185,7 +189,7 @@ class ApiClientImp implements ApiClient {
           debugPrint('Network Error: $error');
           throw ServerError(201, Messages.SERVER_NOT_RESPONDING);
         });
-    debugPrint('Response Data: ${response.body}');
+    Printer.printResponse(response);
     if (response.statusCode == 200) {
       var data = ResponseModel.fromJson(jsonDecode(response.body));
       return data;
@@ -229,7 +233,7 @@ class ApiClientImp implements ApiClient {
           debugPrint('Network Error: $error');
           throw ServerError(201, Messages.SERVER_NOT_RESPONDING);
         });
-    debugPrint('Response Data: ${response.body}');
+    Printer.printResponse(response);
     if (response.statusCode == 200) {
       var data = ResponseModel.fromJson(jsonDecode(response.body));
       return data;
