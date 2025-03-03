@@ -1,3 +1,6 @@
+import 'package:agent_app/res/contents/texts.dart';
+import 'package:agent_app/res/widgets/context_extension.dart';
+import 'package:agent_app/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationScreen extends StatelessWidget {
@@ -5,6 +8,19 @@ class BottomNavigationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: appColors.primary,
+        foregroundColor: appColors.appWhite,
+        centerTitle: true,
+        title: Text(
+          texts.home,
+          style: context.textTheme.bodyLarge?.copyWith(
+            color: appColors.appWhite,
+            fontSize: 18,
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -68,7 +68,7 @@ class AppTextField extends StatelessWidget {
     this.maxLength,
     this.counterText,
     this.obscuringCharacter = '•',
-    this.textCapitalization = TextCapitalization.words,
+    this.textCapitalization = TextCapitalization.none,
     this.contentPadding = const EdgeInsets.symmetric(
       vertical: 12,
       horizontal: 15,
@@ -119,7 +119,7 @@ class AppTextField extends StatelessWidget {
             maxLength: maxLength,
             maxLines: maxLines,
             enableSuggestions: true,
-            style: context.textTheme.bodyLarge,
+            style: context.textTheme.titleSmall,
             obscuringCharacter: obscuringCharacter,
             decoration: InputDecoration(
               prefixIcon: prefixIcon,

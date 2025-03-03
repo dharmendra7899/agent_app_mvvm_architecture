@@ -115,7 +115,7 @@ class AuthProvider with ChangeNotifier {
             }
           } else {
             if (context.mounted) {
-              Navigator.pushNamed(context, RouteNames.bottomNavigationScreen);
+              Navigator.popAndPushNamed(context, RouteNames.bottomNavigationScreen);
             }
           }
         });

@@ -4,6 +4,7 @@ import 'package:agent_app/res/contents/texts.dart';
 import 'package:agent_app/res/widgets/context_extension.dart';
 import 'package:agent_app/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -38,116 +39,143 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     },
   ];
 
-  /*  Positioned(
-          bottom: 20.0,
-          left: 20.0,
-          right: 20.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(width: 42, height: 42),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  onBoardingData.length,
-                      (index) => buildIndicator(index),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  if (currentPage != onBoardingData.length - 1) {
-                    pageController.nextPage(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                  } else {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              itemCount: onBoardingData.length,
+              scrollDirection: Axis.horizontal,
+              controller: pageController,
+              onPageChanged: onChanged,
+              itemBuilder: (BuildContext context, int index) {
+                return Stack(
+                  children: [
+                    Image.asset(
+                      width: MediaQuery.of(context).size.width,
+                      onBoardingData[index]['topImage']!,
+                      fit: BoxFit.fitWidth,
+                    ),
+                    Positioned(
+                      top: 270,
+                      left: 0,
+                      right: 0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 30),
+                          Image.asset(
+                            onBoardingData[index]['image']!,
+                            scale: 1.8,
+                          ),
+                          const SizedBox(height: 25),
+                          Center(
+                            child: Text(
+                              onBoardingData[index]['title'] ?? "",
+                              textAlign: TextAlign.center,
+                              style: context.textTheme.titleLarge,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 8,
+                            ),
+                            child: Center(
+                              child: Text(
+                                onBoardingData[index]['description'] ?? "",
+                                textAlign: TextAlign.center,
+                                style: context.textTheme.bodyLarge,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
                     Provider.of<AuthProvider>(
                       context,
                       listen: false,
                     ).setWalkThrough(context);
-                  }
-                },
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: appColors.primaryDark,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      currentPage != onBoardingData.length - 1
-                          ? Icons.arrow_forward
-                          : Icons.done,
-                      color: appColors.appWhite,
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: appColors.appBackground,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        texts.skip,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: appColors.primaryContainer,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    onBoardingData.length,
+                    (index) => buildIndicator(index),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (currentPage != onBoardingData.length - 1) {
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    } else {
+                      Provider.of<AuthProvider>(
+                        context,
+                        listen: false,
+                      ).setWalkThrough(context);
+                    }
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: appColors.primary,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        currentPage != onBoardingData.length - 1
+                            ? texts.next
+                            : texts.done,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: appColors.appWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),*/
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: Column(
-      children: [
-        Image.asset(
-          width: 500,
-            ConstantImage.shape1,
-                fit: BoxFit.fitWidth,
-        ),
-
-        // SizedBox(height: MediaQuery.of(context).size.height*0.80,
-        //   width: MediaQuery.of(context).size.width,
-        //   child: PageView.builder(
-        //     itemCount: onBoardingData.length,
-        //     scrollDirection: Axis.horizontal,
-        //     controller: pageController,
-        //     onPageChanged: onChanged,
-        //     itemBuilder: (BuildContext context, int index) {
-        //       return Column(
-        //         mainAxisAlignment: MainAxisAlignment.start,
-        //         crossAxisAlignment: CrossAxisAlignment.center,
-        //         children: [
-        //           Image.asset(
-        //             width: 500,
-        //             onBoardingData[index]['topImage']!,
-        //
-        //           ),
-        //           const SizedBox(height: 1),
-        //           ClipRRect(
-        //             borderRadius: BorderRadius.circular(200),
-        //             child: Image.asset(
-        //               onBoardingData[index]['image']!,
-        //               scale: 3,
-        //             ),
-        //           ),
-        //           const SizedBox(height: 40),
-        //           Text(
-        //             onBoardingData[index]['title'] ?? "",
-        //             style: context.textTheme.titleLarge,
-        //           ),
-        //           Padding(
-        //             padding: const EdgeInsets.symmetric(
-        //               horizontal: 20.0,
-        //               vertical: 8,
-        //             ),
-        //             child: Text(
-        //               onBoardingData[index]['description'] ?? "",
-        //               style: context.textTheme.bodyLarge,
-        //             ),
-        //           ),
-        //           const SizedBox(height: 20),
-        //         ],
-        //       );
-        //     },
-        //   ),
-        // ),
-
-      ],
-    ),);
+        ],
+      ),
+    );
   }
 
   void onChanged(int index) {
@@ -164,7 +192,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color:
-            currentPage == index ? appColors.appWhite : appColors.primaryDark,
+            currentPage == index
+                ? appColors.secondary
+                : appColors.appBackground,
       ),
     );
   }

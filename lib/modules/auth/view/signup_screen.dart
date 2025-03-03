@@ -47,8 +47,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        body:Consumer<AuthProvider>(
-            builder: (context, authViewModel, child) {
+        body: Consumer<AuthProvider>(
+          builder: (context, authViewModel, child) {
             return SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -65,15 +65,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           texts.signUp,
                           style: context.textTheme.headlineMedium?.copyWith(
                             fontWeight: FontWeight.w600,
+                            fontFamily: 'LibreFont',
                           ),
                         ),
-                        Text(texts.welcome, style: context.textTheme.bodyLarge),
-                        SizedBox(height: 40),
+                        Text(
+                          texts.welcome,
+                          style: context.textTheme.bodyLarge?.copyWith(
+                            fontFamily: 'LibreFont',
+                          ),
+                        ),
+                        SizedBox(height: 30),
                         AppTextField(
                           labelText: texts.firstName,
                           mandatory: true,
                           controller: _firstNameController,
-                          inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(30),
+                          ],
                           textCapitalization: TextCapitalization.words,
                           keyBoardType: TextInputType.text,
                           hintText: "Enter Your First Name",
@@ -90,7 +98,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           mandatory: true,
                           controller: _lastNameController,
                           keyBoardType: TextInputType.text,
-                          inputFormatters: [LengthLimitingTextInputFormatter(30)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(30),
+                          ],
                           textCapitalization: TextCapitalization.words,
                           hintText: "Enter Your Last Name",
                           prefixIcon: const Icon(Icons.person),
@@ -113,7 +123,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           textCapitalization: TextCapitalization.none,
                           hintText: "Enter Your 10-Digit Mobile Number",
                           prefixIcon: const Icon(Icons.phone_android),
-                          validator: (val) => Utils.validateMobileNumber(val ?? ''),
+                          validator:
+                              (val) => Utils.validateMobileNumber(val ?? ''),
                         ),
                         const SizedBox(height: 20),
                         AppTextField(
@@ -231,11 +242,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     TextSpan(
                                       text: texts.terms,
-                                      style: context.textTheme.bodyMedium?.copyWith(
-                                        color: appColors.secondary,
+                                      style: context.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: appColors.primary,
 
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                       recognizer:
                                           TapGestureRecognizer()
                                             ..onTap = () {
@@ -251,11 +263,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     TextSpan(
                                       text: texts.privacy,
-                                      style: context.textTheme.bodyMedium?.copyWith(
-                                        color: appColors.secondary,
+                                      style: context.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: appColors.primary,
 
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                       recognizer:
                                           TapGestureRecognizer()
                                             ..onTap = () {
@@ -285,19 +298,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   context,
                                 );
                               } else {
-
-                                authViewModel.signUp( name:_firstNameController.text.trim(),
-                                    email: _emailController.text.trim(),
-                                    password: _passwordController.text.trim(),
-                                    confirmPassword: _confirmPasswordController.text.trim(),
-                                    context: context);
+                                authViewModel.signUp(
+                                  name: _firstNameController.text.trim(),
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text.trim(),
+                                  confirmPassword:
+                                      _confirmPasswordController.text.trim(),
+                                  context: context,
+                                );
                               }
                             }
                           },
                           isLoading: authViewModel.showLoader,
                         ),
 
-                        SizedBox(height: 20),
+                        SizedBox(height: 15),
 
                         Align(
                           alignment: Alignment.center,
@@ -312,7 +327,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 TextSpan(
                                   text: texts.signIn,
                                   style: context.textTheme.bodyMedium?.copyWith(
-                                    color: appColors.secondary,
+                                    color: appColors.primary,
 
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -330,14 +345,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
 
-                        SizedBox(height: height * 0.02),
+                        SizedBox(height: height * 0.03),
                       ],
                     ),
                   ),
                 ),
               ),
             );
-          }
+          },
         ),
       ),
     );

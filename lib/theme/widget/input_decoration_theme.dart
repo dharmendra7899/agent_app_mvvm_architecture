@@ -3,18 +3,18 @@ part of "../theme.dart";
 final _inputDecorationTheme = InputDecorationTheme(
   hintStyle: TextStyle(color: appColors.borderColor),
   labelStyle: TextStyle(color: appColors.borderColor),
-  floatingLabelStyle: TextStyle(color: appColors.appBlack),
+  floatingLabelStyle: TextStyle(color: appColors.primaryContainer),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: BorderSide(color: appColors.borderColor),
+    borderSide: BorderSide(color: appColors.primaryContainer),
   ),
   border: OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: BorderSide(color: appColors.appBlack),
+    borderSide: BorderSide(color: appColors.primaryContainer),
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: BorderSide(color: appColors.appBlack),
+    borderSide: BorderSide(color: appColors.primaryContainer),
   ),
   focusedErrorBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),

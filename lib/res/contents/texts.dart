@@ -12,6 +12,7 @@ class Texts {
   String get w3Des => 'Lorem ipsum dolor sit amet, consectetur adipiscing,sed do eiusmod tempor ut labore';
 
   String get getStarted => 'Get Started';
+  String get done => 'Done';
 
   String get next => 'Next';
 

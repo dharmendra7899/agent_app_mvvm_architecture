@@ -26,7 +26,7 @@ class AppButton extends StatelessWidget {
     this.borderColor,
     this.isBorder,
     this.radius,
-    this.height = 45,
+    this.height = 42,
     this.fontSize = 16,
     this.width,
     this.isLoading = false,
@@ -80,7 +80,7 @@ class AppButton extends StatelessWidget {
                     )
                     : Text(
                       title,
-                      style: context.textTheme.titleMedium?.copyWith(
+                      style: context.textTheme.bodyLarge?.copyWith(
                         //  fontSize: fontSize,
                         color: textColor ?? appColors.appWhite,
                       ),

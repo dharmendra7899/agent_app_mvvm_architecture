@@ -67,15 +67,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           centerTitle: true,
           title: Text(
             texts.forgotPassword,
-            style: context.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600,
+            style: context.textTheme.bodyLarge?.copyWith(
               color: appColors.appWhite,
+              fontSize: 18,
             ),
           ),
         ),
         resizeToAvoidBottomInset: true,
         body: Consumer<AuthProvider>(
-            builder: (context, authViewModel, child) {
+          builder: (context, authViewModel, child) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Form(
@@ -174,10 +174,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                               _obSecureNotifier.value =
                                                   !_obSecureNotifier.value;
                                             },
-                                            child: const Icon(Icons.visibility_off),
+                                            child: const Icon(
+                                              Icons.visibility_off,
+                                            ),
                                           ),
                                   validator:
-                                      (val) => Utils.passwordValidator(val ?? ''),
+                                      (val) =>
+                                          Utils.passwordValidator(val ?? ''),
                                 );
                               }),
                             ),
@@ -212,7 +215,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                               _obSecureNotifier1.value =
                                                   !_obSecureNotifier1.value;
                                             },
-                                            child: const Icon(Icons.visibility_off),
+                                            child: const Icon(
+                                              Icons.visibility_off,
+                                            ),
                                           ),
 
                                   validator: (value) {
@@ -220,7 +225,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       return Messages.NEW_PASSWORD_REQ;
                                     } else if (_newPasswordController.text !=
                                         value) {
-                                      return Messages.CON_NEW_PASSWORD_NOT_MATCHED;
+                                      return Messages
+                                          .CON_NEW_PASSWORD_NOT_MATCHED;
                                     }
                                     return null;
                                   },
@@ -259,7 +265,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
             );
-          }
+          },
         ),
       ),
     );

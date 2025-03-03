@@ -16,7 +16,7 @@ class AppTheme {
   static final darkThemeMode = ThemeData.dark();
 
   static final lightThemeMode = ThemeData(
-    fontFamily: 'Poppins',
+    fontFamily: 'Montserrat',
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
     scaffoldBackgroundColor: appColors.appWhite,
